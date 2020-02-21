@@ -146,7 +146,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2" data-path="run.html"><a href="run.html#debugging-the-code"><i class="fa fa-check"></i><b>3.2</b> Debugging the Code</a><ul>
 <li class="chapter" data-level="3.2.1" data-path="run.html"><a href="run.html#custom-messages"><i class="fa fa-check"></i><b>3.2.1</b> Custom Messages</a></li>
 <li class="chapter" data-level="3.2.2" data-path="run.html"><a href="run.html#messages-and-warnings"><i class="fa fa-check"></i><b>3.2.2</b> Messages and Warnings</a></li>
-<li class="chapter" data-level="3.2.3" data-path="run.html"><a href="run.html#interactive-debugging-with-browser"><i class="fa fa-check"></i><b>3.2.3</b> Interactive Debugging with <code>browser()</code></a></li>
+<li class="chapter" data-level="3.2.3" data-path="run.html"><a href="run.html#debugging-with-browser"><i class="fa fa-check"></i><b>3.2.3</b> Debugging with <code>browser()</code></a></li>
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="run.html"><a href="run.html#putting-the-functions-together"><i class="fa fa-check"></i><b>3.3</b> Putting the Functions Together</a><ul>
 <li class="chapter" data-level="3.3.1" data-path="run.html"><a href="run.html#avoding-loops"><i class="fa fa-check"></i><b>3.3.1</b> Avoding Loops</a></li>
@@ -427,8 +427,8 @@ item6 2.103  0.3627 0.080536</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1">temp3<span class="op">$</span>warning</a></code></pre></div>
 <pre><code>&lt;simpleWarning: No seed provided!&gt;</code></pre>
 </div>
-<div id="interactive-debugging-with-browser" class="section level3">
-<h3><span class="header-section-number">3.2.3</span> Interactive Debugging with <code>browser()</code></h3>
+<div id="debugging-with-browser" class="section level3">
+<h3><span class="header-section-number">3.2.3</span> Debugging with <code>browser()</code></h3>
 <p>A relatively more sophisticated way to diagnose a problem in R codes is to use <code>browser()</code>. This stops the execution of our codes and opens an interactive debugging screen. Using this debugging screen, we can do several things such as viewing what objects we have in the current <code>R</code> environment, modifying these objects, and them continuing running the code after these changes.</p>
 <p>Now assume that users of our <code>generate_data</code> function <em>must</em> use their own seed, instead of having the function to generate one automatically. Therefore, we want to the function to stop if that occurs. We will use the <code>stop</code> function for this process. This function can be placed within an <code>if</code> statement to prevent the function for continuing – <em>if a particular condition (or multiple conditions) occurs</em>. Another version of this function is <code>stopifnot</code> which stops the function if a particular condition does <strong>not</strong> occur. To see how <code>stopifnot</code> works, you can type <code>?stopifnot</code> in the <code>R</code> console and check out its help page. In the following example, we will use <code>stop</code>.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">generate_data &lt;-<span class="st"> </span><span class="cf">function</span>(nitem, nexaminee, <span class="dt">seed =</span> <span class="ot">NULL</span>) {</a>
@@ -737,7 +737,7 @@ $itempar
 <h3><span class="header-section-number">3.3.3</span> Parallel Computing</h3>
 <p>In some computations, creating a loop might be necessary. The regular <code>for</code> loop statement executes all the functions using a single processor in the computer. Similarly, the <code>apply</code> function collection also utilizes a single processor in the computer. The use of a single processor is the default setting in <code>R</code>. That is, regardless of whether we are using a 64-bit version of <code>R</code> in a multi-core, powerful computer, <code>R</code> always uses only <strong>one</strong> processor by default.</p>
 <p>For example, in a simulation study with 100 replications via <code>for</code> loops, a single processor would have to run each iteration one by one and return the results once all replications are completed. This may not be a problem especially if we are running a very simple simulation. However, completing a simulation study involving heavy computations for each replication, using a single processor could be very time consuming. Fortunately, there is a solution to this problem: <strong>parallel computing</strong><a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>.</p>
-<p>To benefit from parallel computing when running a Monte Carlo simulation study, we will use two packages: <code>foreach</code> <span class="citation">(Microsoft and Weston <a href="#ref-R-foreach" role="doc-biblioref">2020</a>)</span> and <code>doParallel</code> <span class="citation">(Corporation and Weston <a href="#ref-R-doParallel" role="doc-biblioref">2019</a><a href="#ref-R-doParallel" role="doc-biblioref">b</a>)</span>. <code>doParallel</code> essentially provides a mechanism
+<p>To benefit from parallel computing when running a Monte Carlo simulation study, we will use two packages: <code>foreach</code> <span class="citation">(Microsoft and Weston <a href="#ref-R-foreach" role="doc-biblioref">2017</a>)</span> and <code>doParallel</code> <span class="citation">(Corporation and Weston <a href="#ref-R-doParallel" role="doc-biblioref">2019</a><a href="#ref-R-doParallel" role="doc-biblioref">b</a>)</span>. <code>doParallel</code> essentially provides a mechanism
 needed to execute <code>foreach</code> loops in parallel computing (see the <a href="https://cran.r-project.org/web/packages/doParallel/vignettes/gettingstartedParallel.pdf">vignette</a> for the <code>doParallel</code> package).</p>
 <p>There are several steps in setting up parallel computing with <code>doParallel</code>:</p>
 <ol style="list-style-type: decimal">
@@ -748,8 +748,8 @@ needed to execute <code>foreach</code> loops in parallel computing (see the <a h
 <p>Now, let’s take a look at a short example. First, we will activate <code>doParallel</code>. Next, we will check how many processors (i.e., cores) are available in our computer. The number of processors is the maximum number that we can use when setting up parallel computing. This would use all the processors available, though it also slows down the computer significantly and prevents us from doing other tasks in the computer. If this is a concern, then we can assign fewer processors (instead of all of them) to parallel computing.</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1"><span class="kw">library</span>(<span class="st">&quot;doParallel&quot;</span>)</a>
 <a class="sourceLine" id="cb38-2" title="2"><span class="kw">detectCores</span>()</a></code></pre></div>
-<pre><code>[1] 16</code></pre>
-<p>It seems that there are 16 processors available. We want to use 4 of these processors for running parallel loops<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>.</p>
+<pre><code>[1] 8</code></pre>
+<p>It seems that there are 8 processors available. We want to use 4 of these processors for running parallel loops<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>.</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">cl &lt;-<span class="st"> </span><span class="kw">makeCluster</span>(<span class="dv">4</span>) <span class="co"># Register four clusters (Windows)</span></a>
 <a class="sourceLine" id="cb40-2" title="2"><span class="kw">registerDoParallel</span>(cl)</a></code></pre></div>
 <p>In a <code>foreach</code> loop, there are two ways that a loop can be set up: <code>%do%</code> for a regular loop and <code>%dopar%</code> for running the same code sequentially through multiple processors. In the following example, we will use <code>%dopar%</code>.</p>
@@ -863,7 +863,7 @@ needed to execute <code>foreach</code> loops in parallel computing (see the <a h
 10         a  0.310501 0.4886     0.78836
 11         b  0.129384 0.3310     0.84102
 12         c  0.072968 0.1203     0.42944</code></pre>
-<p>Remember that this is only for <strong>one</strong> of the crossed conditions (10 items, 1000 examinees, no fixed guessing) across <strong>four</strong> iterations. We can summarize the results across all iterations, add additional information to remind us what we have done in the simulation, and save the results. We will use the <code>dplyr</code> package <span class="citation">(Wickham et al. <a href="#ref-R-dplyr" role="doc-biblioref">2020</a>)</span> for summarizing our simulation results.</p>
+<p>Remember that this is only for <strong>one</strong> of the crossed conditions (10 items, 1000 examinees, no fixed guessing) across <strong>four</strong> iterations. We can summarize the results across all iterations, add additional information to remind us what we have done in the simulation, and save the results. We will use the <code>dplyr</code> package <span class="citation">(Wickham, François, et al. <a href="#ref-R-dplyr" role="doc-biblioref">2019</a>)</span> for summarizing our simulation results.</p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1"><span class="kw">library</span>(<span class="st">&quot;dplyr&quot;</span>)</a>
 <a class="sourceLine" id="cb49-2" title="2"></a>
 <a class="sourceLine" id="cb49-3" title="3">simresults_final &lt;-<span class="st"> </span>simresults <span class="op">%&gt;%</span></a>
@@ -955,7 +955,7 @@ needed to execute <code>foreach</code> loops in parallel computing (see the <a h
 <li>Packages on benchmarking</li>
 </ol>
 <ul>
-<li>The <code>tictoc</code> package <span class="citation">(Izrailev <a href="#ref-R-tictoc" role="doc-biblioref">2020</a>)</span></li>
+<li>The <code>tictoc</code> package <span class="citation">(Izrailev <a href="#ref-R-tictoc" role="doc-biblioref">2014</a>)</span></li>
 <li>The <code>rbenchmark</code> package <span class="citation">(Kusnierczyk <a href="#ref-R-rbenchmark" role="doc-biblioref">2012</a>)</span></li>
 <li>The <code>microbenchmark</code> package <span class="citation">(Mersmann <a href="#ref-R-microbenchmark" role="doc-biblioref">2019</a>)</span></li>
 <li>The <code>bench</code> package <span class="citation">(Hester <a href="#ref-R-bench" role="doc-biblioref">2020</a>)</span> (check out its <a href="https://github.com/r-lib/bench">website</a>)</li>
@@ -986,10 +986,10 @@ needed to execute <code>foreach</code> loops in parallel computing (see the <a h
 <a class="sourceLine" id="cb52-19" title="19">                        }</a>
 <a class="sourceLine" id="cb52-20" title="20">)</a></code></pre></div>
 <pre><code>   user  system elapsed 
-  10.06    0.08   10.15 </code></pre>
+   8.34    0.09    8.50 </code></pre>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" title="1">end_time &lt;-<span class="st"> </span><span class="kw">Sys.time</span>() <span class="co"># End time</span></a>
 <a class="sourceLine" id="cb54-2" title="2">end_time <span class="op">-</span><span class="st"> </span>start_time <span class="co"># Time difference</span></a></code></pre></div>
-<pre><code>Time difference of 10.3 secs</code></pre>
+<pre><code>Time difference of 8.631 secs</code></pre>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" title="1"><span class="co"># With parallel computing</span></a>
 <a class="sourceLine" id="cb56-2" title="2">start_time &lt;-<span class="st"> </span><span class="kw">Sys.time</span>() <span class="co"># Starting time</span></a>
 <a class="sourceLine" id="cb56-3" title="3"><span class="kw">system.time</span>(</a>
@@ -1006,10 +1006,10 @@ needed to execute <code>foreach</code> loops in parallel computing (see the <a h
 <a class="sourceLine" id="cb56-14" title="14">  </a>
 <a class="sourceLine" id="cb56-15" title="15">)</a></code></pre></div>
 <pre><code>   user  system elapsed 
-   0.01    0.02    3.64 </code></pre>
+   0.02    0.01    3.23 </code></pre>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" title="1">end_time &lt;-<span class="st"> </span><span class="kw">Sys.time</span>() <span class="co"># End time</span></a>
 <a class="sourceLine" id="cb58-2" title="2">end_time <span class="op">-</span><span class="st"> </span>start_time <span class="co"># Time difference</span></a></code></pre></div>
-<pre><code>Time difference of 3.792 secs</code></pre>
+<pre><code>Time difference of 3.384 secs</code></pre>
 <p>In the output returned from <code>system.time</code>, “elapsed” is the time taken to execute the entire process, “user” gives the CPU time spent by the current process (i.e., the current R session), and “system” gives the CPU time spent by the kernel (the operating system) on behalf of the current process (see <a href="https://r.789695.n4.nabble.com/Meaning-of-proc-time-td2303263.html#a2306691">this post</a> on R-help mailing list for further information).</p>
 <p>What if we want to see the time taken by each function in the whole simulation? <code>Rprof()</code> provides us with this type of information. To activate profiling in <code>R</code>, we need to run:</p>
 <div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" title="1"><span class="kw">Rprof</span>()</a></code></pre></div>
@@ -1022,44 +1022,34 @@ needed to execute <code>foreach</code> loops in parallel computing (see the <a h
 <a class="sourceLine" id="cb61-6" title="6"><span class="co"># Summarize results</span></a>
 <a class="sourceLine" id="cb61-7" title="7">step3 &lt;-<span class="st"> </span><span class="kw">summarize</span>(step2, step1<span class="op">$</span>itempar)</a>
 <a class="sourceLine" id="cb61-8" title="8"><span class="kw">summaryRprof</span>()<span class="op">$</span>by.self</a></code></pre></div>
-<pre><code>                       self.time self.pct total.time total.pct
-&quot;Estep.mirt&quot;                0.80    27.40       0.86     29.45
-&quot;computeItemtrace&quot;          0.46    15.75       0.52     17.81
-&quot;LogLikMstep&quot;               0.36    12.33       0.82     28.08
-&quot;EM.group&quot;                  0.16     5.48       2.88     98.63
-&quot;gr&quot;                        0.12     4.11       0.14      4.79
-&quot;&lt;Anonymous&gt;&quot;               0.10     3.42       1.30     44.52
-&quot;fn&quot;                        0.10     3.42       1.02     34.93
-&quot;reloadPars&quot;                0.10     3.42       0.12      4.11
-&quot;optim&quot;                     0.04     1.37       1.26     43.15
-&quot;mahalanobis&quot;               0.04     1.37       0.12      4.11
-&quot;.getClassesFromCache&quot;      0.04     1.37       0.04      1.37
-&quot;@&lt;-&quot;                       0.04     1.37       0.04      1.37
-&quot;as.matrix&quot;                 0.04     1.37       0.04      1.37
-&quot;get0&quot;                      0.04     1.37       0.04      1.37
-&quot;matrix&quot;                    0.04     1.37       0.04      1.37
-&quot;doTryCatch&quot;                0.02     0.68       2.92    100.00
-&quot;tryCatch&quot;                  0.02     0.68       2.92    100.00
-&quot;FUN&quot;                       0.02     0.68       2.90     99.32
-&quot;Mstep&quot;                     0.02     0.68       1.38     47.26
-&quot;.External2&quot;                0.02     0.68       1.20     41.10
-&quot;updatePrior&quot;               0.02     0.68       0.24      8.22
-&quot;getCallingDLLe&quot;            0.02     0.68       0.06      2.05
-&quot;is&quot;                        0.02     0.68       0.06      2.05
-&quot;getClass&quot;                  0.02     0.68       0.04      1.37
-&quot;solve.default&quot;             0.02     0.68       0.04      1.37
-&quot;sys.function&quot;              0.02     0.68       0.04      1.37
-&quot;[&quot;                         0.02     0.68       0.02      0.68
-&quot;close.connection&quot;          0.02     0.68       0.02      0.68
-&quot;grepl&quot;                     0.02     0.68       0.02      0.68
-&quot;ifelse&quot;                    0.02     0.68       0.02      0.68
-&quot;length&quot;                    0.02     0.68       0.02      0.68
-&quot;longpars_constrain&quot;        0.02     0.68       0.02      0.68
-&quot;nrow&quot;                      0.02     0.68       0.02      0.68
-&quot;rev.default&quot;               0.02     0.68       0.02      0.68
-&quot;rowSums&quot;                   0.02     0.68       0.02      0.68
-&quot;setNames&quot;                  0.02     0.68       0.02      0.68
-&quot;sys.parent&quot;                0.02     0.68       0.02      0.68</code></pre>
+<pre><code>                         self.time self.pct total.time total.pct
+&quot;Estep.mirt&quot;                  0.78    33.05       0.84     35.59
+&quot;computeItemtrace&quot;            0.38    16.10       0.40     16.95
+&quot;LogLikMstep&quot;                 0.24    10.17       0.62     26.27
+&quot;gr&quot;                          0.16     6.78       0.18      7.63
+&quot;&lt;Anonymous&gt;&quot;                 0.10     4.24       1.12     47.46
+&quot;EM.group&quot;                    0.08     3.39       2.34     99.15
+&quot;fn&quot;                          0.06     2.54       0.80     33.90
+&quot;reloadPars&quot;                  0.06     2.54       0.12      5.08
+&quot;ifelse&quot;                      0.06     2.54       0.06      2.54
+&quot;FUN&quot;                         0.04     1.69       2.34     99.15
+&quot;getClassDef&quot;                 0.04     1.69       0.08      3.39
+&quot;getCallingDLLe&quot;              0.04     1.69       0.06      2.54
+&quot;match.arg&quot;                   0.04     1.69       0.04      1.69
+&quot;tryCatch&quot;                    0.02     0.85       2.36    100.00
+&quot;optim&quot;                       0.02     0.85       1.06     44.92
+&quot;Estep&quot;                       0.02     0.85       0.86     36.44
+&quot;mahalanobis&quot;                 0.02     0.85       0.14      5.93
+&quot;order&quot;                       0.02     0.85       0.06      2.54
+&quot;%*%&quot;                         0.02     0.85       0.02      0.85
+&quot;%in%&quot;                        0.02     0.85       0.02      0.85
+&quot;.getClassesFromCache&quot;        0.02     0.85       0.02      0.85
+&quot;as.matrix&quot;                   0.02     0.85       0.02      0.85
+&quot;attr&quot;                        0.02     0.85       0.02      0.85
+&quot;c&quot;                           0.02     0.85       0.02      0.85
+&quot;get0&quot;                        0.02     0.85       0.02      0.85
+&quot;longpars_constrain&quot;          0.02     0.85       0.02      0.85
+&quot;methodsPackageMetaName&quot;      0.02     0.85       0.02      0.85</code></pre>
 <div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" title="1"><span class="kw">Rprof</span>(<span class="ot">NULL</span>) <span class="co"># Turn off profiling</span></a></code></pre></div>
 <p>In the output, “self.pct” is the most important column because it indicates the percentage of time that each of the listed tasks has taken in the estimation process.</p>
 <p>Next, let’s see how the <code>tictoc</code> package works for finding running time of our code. Between each <code>tic()</code> and <code>toc()</code>, it saves the time spent. So, we place several <code>tic()</code> and <code>toc()</code> functions. The first one, <code>tic("Total simulation time:")</code> will be closed at the end so that we can see the total time spent on the simulation. The others in between will calculate the time for each step (i.e., step 1, step 2, and step 3).</p>
@@ -1068,17 +1058,17 @@ needed to execute <code>foreach</code> loops in parallel computing (see the <a h
 <a class="sourceLine" id="cb64-3" title="3"><span class="kw">tic</span>(<span class="st">&quot;Generate item parameters and data&quot;</span>)</a>
 <a class="sourceLine" id="cb64-4" title="4">step1 &lt;-<span class="st"> </span><span class="kw">generate_data</span>(<span class="dt">nitem=</span>nitem, <span class="dt">nexaminee=</span>nexaminee, <span class="dt">seed=</span>seed[<span class="dv">1</span>])</a>
 <a class="sourceLine" id="cb64-5" title="5"><span class="kw">toc</span>()</a></code></pre></div>
-<pre><code>Generate item parameters and data: 0.01 sec elapsed</code></pre>
+<pre><code>Generate item parameters and data: 0 sec elapsed</code></pre>
 <div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" title="1"><span class="kw">tic</span>(<span class="st">&quot;Estimate item parameters&quot;</span>)</a>
 <a class="sourceLine" id="cb66-2" title="2">step2 &lt;-<span class="st"> </span><span class="kw">estimate_par</span>(step1<span class="op">$</span>respdata, <span class="dt">guess =</span> guess)</a>
 <a class="sourceLine" id="cb66-3" title="3"><span class="kw">toc</span>()</a></code></pre></div>
-<pre><code>Estimate item parameters: 2.97 sec elapsed</code></pre>
+<pre><code>Estimate item parameters: 2.65 sec elapsed</code></pre>
 <div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" title="1"><span class="kw">tic</span>(<span class="st">&quot;Summarize results&quot;</span>)</a>
 <a class="sourceLine" id="cb68-2" title="2">step3 &lt;-<span class="st"> </span><span class="kw">summarize</span>(step2, step1<span class="op">$</span>itempar)</a>
 <a class="sourceLine" id="cb68-3" title="3"><span class="kw">toc</span>()</a></code></pre></div>
-<pre><code>Summarize results: 0.02 sec elapsed</code></pre>
+<pre><code>Summarize results: 0 sec elapsed</code></pre>
 <div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" title="1"><span class="kw">toc</span>()</a></code></pre></div>
-<pre><code>Total simulation time:: 3 sec elapsed</code></pre>
+<pre><code>Total simulation time:: 2.65 sec elapsed</code></pre>
 <p>Finally, let’s add a progress bar to our simulation study. We will use the <code>txtProgressBar</code> function from base R and the <code>doSNOW</code> package <span class="citation">(Corporation and Weston <a href="#ref-R-doSNOW" role="doc-biblioref">2019</a><a href="#ref-R-doSNOW" role="doc-biblioref">a</a>)</span> together. The <code>txtProgressBar</code> function is a standalone function and thus it does not require other packages to print a progress bar. However, in the following example, we will do parallel computing using the <code>doSNOW</code> package (it is very similar to <code>doParallel</code>) and add a progress bar into our simulation. This will require us to add <code>.options.snow</code> in the loop so that the progress bar works along with the simulation.</p>
 <div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" title="1">iterations =<span class="st"> </span><span class="dv">10</span> <span class="co">#Eventually this will be 100</span></a>
 <a class="sourceLine" id="cb72-2" title="2">seed =<span class="st"> </span><span class="kw">sample.int</span>(<span class="dv">10000</span>, <span class="dv">100</span>)</a>
@@ -1132,7 +1122,7 @@ needed to execute <code>foreach</code> loops in parallel computing (see the <a h
 <p>Hester, Jim. 2020. <em>Bench: High Precision Timing of R Expressions</em>. <a href="https://CRAN.R-project.org/package=bench">https://CRAN.R-project.org/package=bench</a>.</p>
 </div>
 <div id="ref-R-tictoc">
-<p>Izrailev, Sergei. 2020. <em>Tictoc: Functions for Timing R Scripts, as Well as Implementations of Stack and List Structures</em>. <a href="http://github.com/jabiru/tictoc">http://github.com/jabiru/tictoc</a>.</p>
+<p>Izrailev, Sergei. 2014. <em>Tictoc: Functions for Timing R Scripts, as Well as Implementations of Stack and List Structures.</em> <a href="https://CRAN.R-project.org/package=tictoc">https://CRAN.R-project.org/package=tictoc</a>.</p>
 </div>
 <div id="ref-R-rbenchmark">
 <p>Kusnierczyk, Wacek. 2012. <em>Rbenchmark: Benchmarking Routine for R</em>. <a href="https://CRAN.R-project.org/package=rbenchmark">https://CRAN.R-project.org/package=rbenchmark</a>.</p>
@@ -1141,13 +1131,13 @@ needed to execute <code>foreach</code> loops in parallel computing (see the <a h
 <p>Mersmann, Olaf. 2019. <em>Microbenchmark: Accurate Timing Functions</em>. <a href="https://CRAN.R-project.org/package=microbenchmark">https://CRAN.R-project.org/package=microbenchmark</a>.</p>
 </div>
 <div id="ref-R-foreach">
-<p>Microsoft, and Steve Weston. 2020. <em>Foreach: Provides Foreach Looping Construct</em>. <a href="https://CRAN.R-project.org/package=foreach">https://CRAN.R-project.org/package=foreach</a>.</p>
+<p>Microsoft, and Steve Weston. 2017. <em>Foreach: Provides Foreach Looping Construct for R</em>. <a href="https://CRAN.R-project.org/package=foreach">https://CRAN.R-project.org/package=foreach</a>.</p>
 </div>
 <div id="ref-R-irtoys">
 <p>Partchev, Ivailo, and Gunter Maris. 2017. <em>Irtoys: A Collection of Functions Related to Item Response Theory (Irt)</em>. <a href="https://CRAN.R-project.org/package=irtoys">https://CRAN.R-project.org/package=irtoys</a>.</p>
 </div>
 <div id="ref-R-dplyr">
-<p>Wickham, Hadley, Romain François, Lionel Henry, and Kirill Müller. 2020. <em>Dplyr: A Grammar of Data Manipulation</em>. <a href="https://CRAN.R-project.org/package=dplyr">https://CRAN.R-project.org/package=dplyr</a>.</p>
+<p>Wickham, Hadley, Romain François, Lionel Henry, and Kirill Müller. 2019. <em>Dplyr: A Grammar of Data Manipulation</em>. <a href="https://CRAN.R-project.org/package=dplyr">https://CRAN.R-project.org/package=dplyr</a>.</p>
 </div>
 </div>
 <div class="footnotes">

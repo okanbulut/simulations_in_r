@@ -706,8 +706,8 @@ Let's see if our function returned any warnings:
 <simpleWarning: No seed provided!>
 \end{verbatim}
 
-\hypertarget{interactive-debugging-with-browser}{%
-\subsection{\texorpdfstring{Interactive Debugging with \texttt{browser()}}{Interactive Debugging with browser()}}\label{interactive-debugging-with-browser}}
+\hypertarget{debugging-with-browser}{%
+\subsection{\texorpdfstring{Debugging with \texttt{browser()}}{Debugging with browser()}}\label{debugging-with-browser}}
 
 A relatively more sophisticated way to diagnose a problem in R codes is to use \texttt{browser()}. This stops the execution of our codes and opens an interactive debugging screen. Using this debugging screen, we can do several things such as viewing what objects we have in the current \texttt{R} environment, modifying these objects, and them continuing running the code after these changes.
 
@@ -790,7 +790,7 @@ If we want to see how we came to this particular error in the function, we can h
 \caption{The traceback() option in R}
 \end{figure}
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
 
 For more further information about debugging in \texttt{R}, I highly recommend you to check out:
 
@@ -802,7 +802,7 @@ For more further information about debugging in \texttt{R}, I highly recommend y
   the \href{https://rstats.wtf/debugging-r-code.html}{Debugging R Code} chapter in Jennifer Bryan and Jim Hester's \href{https://rstats.wtf/}{What They Forgot to Teach You About R}
 \end{itemize}
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
 
 \hypertarget{putting-the-functions-together}{%
 \section{Putting the Functions Together}\label{putting-the-functions-together}}
@@ -1181,10 +1181,10 @@ Now, let's take a look at a short example. First, we will activate \texttt{doPar
 \end{Shaded}
 
 \begin{verbatim}
-[1] 16
+[1] 8
 \end{verbatim}
 
-It seems that there are 16 processors available. We want to use 4 of these processors for running parallel loops\footnote{If the computer has a Mac operating system, then \texttt{cl\ \textless{}-\ makeCluster(4,\ outfile="")} should be used.}.
+It seems that there are 8 processors available. We want to use 4 of these processors for running parallel loops\footnote{If the computer has a Mac operating system, then \texttt{cl\ \textless{}-\ makeCluster(4,\ outfile="")} should be used.}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1433,7 +1433,7 @@ We can also create a nested loop where we can all the conditions together. Here 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
 
 If you are interested in high performance computing, I also recommend the following resources:
 
@@ -1445,7 +1445,7 @@ If you are interested in high performance computing, I also recommend the follow
   The \href{http://adv-r.had.co.nz/Performance.html}{Performance} chapter in Hadley Wickham's \href{http://adv-r.had.co.nz/}{Advanced R} book
 \end{itemize}
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
 
 \hypertarget{benchmarking}{%
 \section{Benchmarking}\label{benchmarking}}
@@ -1528,7 +1528,7 @@ In the following example, we will run a simple benchmarking test using our simul
 
 \begin{verbatim}
    user  system elapsed 
-   9.89    0.06    9.95 
+   8.08    0.06    8.14 
 \end{verbatim}
 
 \begin{Shaded}
@@ -1539,7 +1539,7 @@ In the following example, we will run a simple benchmarking test using our simul
 \end{Shaded}
 
 \begin{verbatim}
-Time difference of 10.11 secs
+Time difference of 8.283 secs
 \end{verbatim}
 
 \begin{Shaded}
@@ -1564,7 +1564,7 @@ Time difference of 10.11 secs
 
 \begin{verbatim}
    user  system elapsed 
-   0.04    0.00    3.68 
+   0.02    0.00    3.23 
 \end{verbatim}
 
 \begin{Shaded}
@@ -1575,7 +1575,7 @@ Time difference of 10.11 secs
 \end{Shaded}
 
 \begin{verbatim}
-Time difference of 3.827 secs
+Time difference of 3.378 secs
 \end{verbatim}
 
 In the output returned from \texttt{system.time}, ``elapsed'' is the time taken to execute the entire process, ``user'' gives the CPU time spent by the current process (i.e., the current R session), and ``system'' gives the CPU time spent by the kernel (the operating system) on behalf of the current process (see \href{https://r.789695.n4.nabble.com/Meaning-of-proc-time-td2303263.html\#a2306691}{this post} on R-help mailing list for further information).
@@ -1604,33 +1604,37 @@ Then, we can see the running time of each function after profiling has been acti
 \end{Shaded}
 
 \begin{verbatim}
-                       self.time self.pct total.time total.pct
-"Estep.mirt"                0.98    35.00       1.12     40.00
-"computeItemtrace"          0.42    15.00       0.46     16.43
-"LogLikMstep"               0.30    10.71       0.68     24.29
-"gr"                        0.20     7.14       0.22      7.86
-"reloadPars"                0.12     4.29       0.14      5.00
-"EM.group"                  0.10     3.57       2.76     98.57
-"fn"                        0.10     3.57       0.90     32.14
-"@<-"                       0.06     2.14       0.06      2.14
-"<Anonymous>"               0.04     1.43       1.24     44.29
-"Estep"                     0.04     1.43       1.16     41.43
-"getClass"                  0.04     1.43       0.08      2.86
-".getClassesFromCache"      0.04     1.43       0.04      1.43
-"as.matrix"                 0.04     1.43       0.04      1.43
-"get0"                      0.04     1.43       0.04      1.43
-"ifelse"                    0.04     1.43       0.04      1.43
-"order"                     0.04     1.43       0.04      1.43
-"evaluate_call"             0.02     0.71       2.80    100.00
-"Mstep"                     0.02     0.71       1.24     44.29
-".External2"                0.02     0.71       1.18     42.14
-"getClassDef"               0.02     0.71       0.08      2.86
-"getCallingDLLe"            0.02     0.71       0.06      2.14
-".requirePackage"           0.02     0.71       0.02      0.71
-"matrix"                    0.02     0.71       0.02      0.71
-"numeric"                   0.02     0.71       0.02      0.71
-"rev.default"               0.02     0.71       0.02      0.71
-"solve"                     0.02     0.71       0.02      0.71
+                   self.time self.pct total.time total.pct
+"Estep.mirt"            0.76    32.20       0.80     33.90
+"computeItemtrace"      0.36    15.25       0.40     16.95
+"LogLikMstep"           0.24    10.17       0.62     26.27
+"gr"                    0.16     6.78       0.18      7.63
+"EM.group"              0.12     5.08       2.34     99.15
+"reloadPars"            0.08     3.39       0.14      5.93
+"fn"                    0.06     2.54       0.82     34.75
+"getCallingDLLe"        0.06     2.54       0.08      3.39
+"updatePrior"           0.04     1.69       0.22      9.32
+"aperm"                 0.04     1.69       0.12      5.08
+"order"                 0.04     1.69       0.08      3.39
+"matrix"                0.04     1.69       0.04      1.69
+"tryCatch"              0.02     0.85       2.36    100.00
+"FUN"                   0.02     0.85       2.34     99.15
+"Mstep"                 0.02     0.85       1.12     47.46
+"optim"                 0.02     0.85       1.04     44.07
+".External2"            0.02     0.85       1.02     43.22
+"Estep"                 0.02     0.85       0.82     34.75
+"is"                    0.02     0.85       0.04      1.69
+"@<-"                   0.02     0.85       0.02      0.85
+"as.matrix"             0.02     0.85       0.02      0.85
+"file"                  0.02     0.85       0.02      0.85
+"get0"                  0.02     0.85       0.02      0.85
+"getOption"             0.02     0.85       0.02      0.85
+"is.array"              0.02     0.85       0.02      0.85
+"match.arg"             0.02     0.85       0.02      0.85
+"match.fun"             0.02     0.85       0.02      0.85
+"proc.time"             0.02     0.85       0.02      0.85
+"rowSums"               0.02     0.85       0.02      0.85
+"sum"                   0.02     0.85       0.02      0.85
 \end{verbatim}
 
 \begin{Shaded}
@@ -1654,7 +1658,7 @@ Next, let's see how the \texttt{tictoc} package works for finding running time o
 \end{Shaded}
 
 \begin{verbatim}
-Generate item parameters and data: 0.02 sec elapsed
+Generate item parameters and data: 0 sec elapsed
 \end{verbatim}
 
 \begin{Shaded}
@@ -1666,7 +1670,7 @@ Generate item parameters and data: 0.02 sec elapsed
 \end{Shaded}
 
 \begin{verbatim}
-Estimate item parameters: 3.01 sec elapsed
+Estimate item parameters: 2.53 sec elapsed
 \end{verbatim}
 
 \begin{Shaded}
@@ -1688,7 +1692,7 @@ Summarize results: 0 sec elapsed
 \end{Shaded}
 
 \begin{verbatim}
-Total simulation time:: 3.05 sec elapsed
+Total simulation time:: 2.53 sec elapsed
 \end{verbatim}
 
 Finally, let's add a progress bar to our simulation study. We will use the \texttt{txtProgressBar} function from base R and the \texttt{doSNOW} package \citep{R-doSNOW} together. The \texttt{txtProgressBar} function is a standalone function and thus it does not require other packages to print a progress bar. However, in the following example, we will do parallel computing using the \texttt{doSNOW} package (it is very similar to \texttt{doParallel}) and add a progress bar into our simulation. This will require us to add \texttt{.options.snow} in the loop so that the progress bar works along with the simulation.
